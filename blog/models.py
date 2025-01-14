@@ -48,7 +48,7 @@ class Post(db.Model):
     title = db.Column(db.String(100),nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_images = db.Column(db.String(20),nullable=False, default='default.jpg')
-    content = db.Column(db.Text,nullable=False)
+    content = db.Column(db.Text(),nullable=False)
     category = db.Column(db.String(50), nullable=False, default='General')
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
     comments = db.relationship('Comment', backref='post', lazy=True)

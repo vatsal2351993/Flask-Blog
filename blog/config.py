@@ -10,4 +10,9 @@ class Config:
     MAIL_USE_SSL = False
     MAIL_USERNAME = os.environ.get('EMAIL_USER')  
     MAIL_PASSWORD = os.environ.get('EMAIL_PASS')  
-    MAIL_DEFAULT_SENDER = os.environ.get('EMAIL_USER')  
+    MAIL_DEFAULT_SENDER = os.environ.get('EMAIL_USER') 
+    MAIL_DEBUG = int(os.environ.get('MAIL_DEBUG', 0))
+    import os
+
+
+ 
