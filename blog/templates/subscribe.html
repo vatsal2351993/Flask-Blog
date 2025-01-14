@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Subscribe{% endblock %}
+{% block content %}
+<div 
+    class="d-flex flex-column justify-content-center align-items-center text-center" 
+    style="min-height: 100vh; width: 100%;"
+>
+    <div style="max-width: 600px; width: 100%;">
+        <h2 class="text-primary mb-4">Subscribe to Our Newsletter</h2>
+        <form method="POST" action="{{ url_for('main.subscribe') }}">
+            <div class="form-group mb-3">
+                <input 
+                    type="email" 
+                    name="email" 
+                    class="form-control" 
+                    placeholder="Enter your email address" 
+                    style="max-width: 400px; margin: 0 auto; border-radius: 5px;" 
+                    required
+                >
+            </div>
+            <button type="submit" class="btn btn-primary" style="border-radius: 5px;">Subscribe</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block sidebar %}{% endblock %}

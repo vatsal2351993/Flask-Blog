@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <!-- Search and Category Filter -->
+    <form method="get" action="{{ url_for('main.home') }}" class="mb-4">
+      <div class="d-flex align-items-center gap-3">
+          <!-- Search Box -->
+          <div class="input-group position-relative" style="width: 300px;">
+              <input 
+                  type="text" 
+                  name="search" 
+                  id="search-box" 
+                  class="form-control form-control-sm" 
+                  placeholder="Search posts..." 
+                  value="{{ search_query }}" 
+                  style="border-radius: 0.5rem;" 
+                  autocomplete="off"
+              >
+              <!-- Suggestions Container -->
+              <div id="suggestions" 
+                   class="list-group position-absolute w-100" 
+                   style="z-index: 1000; max-height: 200px; overflow-y: auto; display: none; background: white; border: 1px solid #ced4da; border-radius: 0.5rem;">
+              </div>
+          </div>
+  
+          <!-- Category Dropdown -->
+          <div>
+            <select 
+                name="category" 
+                class="form-select form-select-sm" 
+                style="width: 150px; border-radius: 0.5rem;">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                    <option 
+                        value="{{ cat }}" 
+                        {% if request.args.get('category') == cat %} selected {% endif %}>
+                        {{ cat }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+  
+          <!-- Search Button -->
+          <button type="submit" class="btn btn-primary btn-sm" style="border-radius: 0.5rem;">Search</button>
+      </div>
+  </form>
+
+    <!-- Display Posts -->
+    {% for post in posts.items %}
+        <div class="shadow-sm p-3 mb-4" 
+          style="
+          background: #ece9e6; 
+          border: 1px solid #d1e7dd;  
+          border-radius: 1rem; 
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          overflow: hidden;">
+          <div class="d-flex align-items-start">
+              <!-- Post Image -->
+              <img 
+                  class="rounded" 
+                  src="{{ url_for('static', filename='pics/' + post.author.image_file) }}"
+                  alt="Post Image" 
+                  style="width: 50px; height: 50px; object-fit: cover; margin-right: 15px; border-radius: 10px;">
+              <!-- Post Content -->
+              <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="badge bg-primary me-3">{{ post.category }}</span>
+                      <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                  </div>
+                  <h3 style="font-weight: bold;">
+                      <a href="#" 
+                         style="text-decoration: none; color: #007bff; cursor:text">
+                         {{ post.title }}
+                      </a>
+                  </h3>
+                  <p style="color: #555;">
+                      {{ post.content[:150] }}...
+                  </p>
+                  <a href="{{ url_for('posts.post', post_id=post.id) }}" 
+                     class="btn btn-outline-primary btn-sm" 
+                     style="border-radius: 0.5rem;">
+                     View More
+                  </a>
+                 
+            </div>
+        
+              
+          </div>
+
+          <!-- Comments Section -->
+          <div class="comments-section mt-4">
+              <h6>Comments</h6>
+              <ul class="list-unstyled">
+                  {% for comment in post.comments %}
+                      <li class="mb-2">
+                          <strong>{{ comment.author.username }}</strong>:
+                          {{ comment.content }}
+                          <small class="text-muted">{{ comment.date_posted.strftime('%Y-%m-%d %H:%M') }}</small>
+                      </li>
+                  {% else %}
+                      <li>No comments yet. Be the first to comment!</li>
+                  {% endfor %}
+              </ul>
+
+              <!-- Add Comment Form -->
+              <form method="POST" action="{{ url_for('posts.add_comment', post_id=post.id) }}">
+                  {{ form.hidden_tag() }}
+                  <div class="form-group">
+                      {{ form.content(class="form-control form-control-sm", placeholder="Add a comment...") }}
+                  </div>
+                  <div class="form-group mt-2">
+                      {{ form.submit(class="btn btn-primary btn-sm") }}
+                  </div>
+              </form>
+          </div>
+        </div>
+    {% endfor %}
+    
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if posts.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('main.home', page=posts.prev_num, search=search_query) }}">Previous</a>
+                </li>
+            {% endif %}
+            {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    <li class="page-item {% if posts.page == page_num %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('main.home', page=page_num, search=search_query) }}">{{ page_num }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('main.home', page=posts.next_num, search=search_query) }}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<!-- Dynamic JSON Data for Suggestions -->
+<script type="application/json" id="posts-data">
+  [
+    {% for post in posts.items %}
+      "{{ post.title }}"{{ "," if not loop.last }}
+    {% endfor %}
+  ]
+</script>
+
+<!-- JavaScript for Suggestions -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchBox = document.getElementById('search-box');
+        const suggestions = document.getElementById('suggestions');
+        const postTitles = JSON.parse(document.getElementById('posts-data').textContent);
+
+        searchBox.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            suggestions.innerHTML = ''; // Clear previous suggestions
+
+            if (query) {
+                const filtered = postTitles.filter(title => title.toLowerCase().includes(query));
+
+                filtered.forEach(title => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.textContent = title;
+                    suggestionItem.className = 'list-group-item list-group-item-action';
+                    suggestionItem.style.cursor = 'pointer';
+
+                    suggestionItem.addEventListener('click', () => {
+                        searchBox.value = title; // Set the clicked title in the search box
+                        suggestions.style.display = 'none'; // Hide suggestions
+                    });
+
+                    suggestions.appendChild(suggestionItem);
+                });
+
+                suggestions.style.display = 'block'; // Show suggestions
+            } else {
+                suggestions.style.display = 'none'; // Hide suggestions if query is empty
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#search-box') && !e.target.closest('#suggestions')) {
+                suggestions.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock content %}

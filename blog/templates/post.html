@@ -1,0 +1,131 @@
+{% extends 'base.html' %} {% block title %} {{ post.title }} {% endblock %} {%
+block content %}
+<div class="container mt-5">
+  <article
+    class="media content-section shadow-sm p-3 mb-4"
+    style="
+      background: #ece9e6; /* fallback for old browsers */
+      background: -webkit-linear-gradient(
+        to right,
+        #ffffff,
+        #ece9e6
+      ); /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(
+        to right,
+        #ffffff,
+        #ece9e6
+      ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      border: 2px solid #007bff;
+      border-radius: 1rem;
+      border-radius: 1rem;
+    "
+  >
+    <img
+      class="rounded-circle article-img"
+      src="{{ url_for('static', filename='pics/' + post.author.image_file) }}"
+      width="50"
+      height="50"
+      alt="Profile picture of {{ post.author.username }}"
+    />
+    <div class="media-body">
+      <div class="article-metadata mb-2">
+        <a
+          class="fw-bold"
+          href="{{ url_for('users.user_posts', username=post.author.username)}}"
+          style="
+            color: rgb(0, 0, 0);
+            font-weight: lighter;
+            text-decoration: none;
+          "
+        >
+          {{ post.author.username }}
+        </a>
+        <small class="ms-2" style="text-decoration: underlin; font-weight: bold"
+          >{{ post.date_posted.strftime('%Y-%m-%d') }}</small
+        >
+        {% if post.author == current_user %}
+        <div>
+          <a
+            type="button"          
+            class="btn btn-success btn-sm m-1"
+            href="{{ url_for('posts.update_post', post_id=post.id) }}"
+            >Update</a
+          >
+        </div>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm m-1"
+          data-bs-toggle="modal"
+          data-bs-target="#deleteModal"
+        >
+          Delete
+        </button>
+        {% endif %}
+      </div>
+      <h2
+        class="article-title"
+        style="color:  #007bff; font-weight: bolder"
+      >
+        {{ post.title }}
+      </h2>
+      <p class="article-content" style="color: rgb(3, 3, 3); font-weight: bold">
+        {{ post.content }}
+      </p>
+      <div class="container">
+        {% if user_images %}
+          <img
+          id="snippet-image"
+          src="{{ user_images }}"
+          alt="text"
+          style="max-width: 500px; max-height: 500px; cursor: text"
+          title="Click to copy the snippet"
+        />
+        {% else %}
+        <p>No image available for this post.</p>
+        {% endif %}
+        </div>
+        <div>
+        <!-- Download Button -->
+        <a id="download-btn" class="btn btn-outline-primary btn-sm mt-2" title="Download the snippet">Download Image</a>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- Delete Post Modal -->
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Post?</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this post? This action cannot be undone.
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <form
+          action="{{ url_for('posts.delete_post', post_id=post.id) }}"
+          method="POST"
+        >
+          <input type="submit" class="btn btn-danger" value="Delete" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,30 @@
+
+html, body {
+    height: 100%; 
+    margin: 0;
+    padding: 0; 
+    width: 100%; 
+    background: #C9D6FF;  
+    background: -webkit-linear-gradient(to top, #E2E2E2, #C9D6FF);  
+    background: linear-gradient(to top, #E2E2E2, #C9D6FF); 
+    background-attachment: fixed; 
+}
+
+
+body > * {
+    background: transparent; 
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1; 
+}
+footer {
+    margin-top: auto; 
+}
+
+
+  
