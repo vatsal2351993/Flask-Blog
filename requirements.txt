@@ -7,7 +7,7 @@ email_validator==2.2.0
 Flask==3.1.0
 Flask-Bcrypt==1.0.1
 Flask-Login==0.6.3
-Flask-Mailman==1.1.1
+Flask-Mail==0.10.0
 Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.2.2
 greenlet==3.1.1
