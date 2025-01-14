@@ -8,6 +8,7 @@ from flask_mail import Mail
 from blog.config import Config
 
 app = Flask(__name__)
+app.config['DEBUG'] = os.environ.get('FLASK_DEBUG', False)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
