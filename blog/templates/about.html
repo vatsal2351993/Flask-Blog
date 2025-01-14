@@ -1,96 +1,122 @@
-{% extends 'base.html' %}
-{% block title %}
-    About
-{% endblock %}
-{% block content %}
-<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; text-align: center;">
-    <main class="container">
-        <div class="row justify-content-center justify-content-lg-end">
-            <div class="col-12 col-sm-10 col-md-8 col-lg-6">
-                <!-- Welcome Section -->
-                <section class="mb-5 text-center">
-                    <h1 class="display-4 text-primary">Welcome to<strong>"R Blogs"</strong></h1>
-                    <p class="lead text-secondary">
-                        A fresh space to explore ideas, share knowledge, and inspire growth. We're just getting started, and we're thrilled to have you on this journey!
-                    </p>
-                </section>
+{% extends 'base.html' %} {% block title %} About {% endblock %} {% block
+content %}
+<div
+  class="d-flex justify-content-center align-items-center"
+  style="min-height: 100vh; text-align: center"
+>
+  <main class="container">
+    <div class="row justify-content-center justify-content-lg-end">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+        <!-- Welcome Section -->
+        <section class="mb-5 text-center">
+          <h1 class="display-4 text-primary">
+            Welcome to<strong>"R Blogs"</strong>
+          </h1>
+          <p class="lead text-secondary">
+            A fresh space to explore ideas, share knowledge, and inspire growth.
+            We're just getting started, and we're thrilled to have you on this
+            journey!
+          </p>
+        </section>
 
-                <!-- Vision and Mission Section -->
-                <section class="mb-5 text-center">
-                    <h2 class="text-primary mb-4">Our Vision & Mission</h2>
-                    <p class="mb-3 text-secondary">
-                        At <strong>"R Blogs"</strong>, we aim to create a platform that sparks curiosity and fuels creativity. Our mission is to share content that educates, inspires, and empowers, building a community that thrives on shared ideas and meaningful connections.
-                    </p>
-                    <blockquote class="blockquote text-center">
-                        <p class="mb-0"><em>"Every great journey starts with a single idea."</em></p>
-                        <footer class="blockquote-footer mt-2">"R Blogs"</footer>
-                    </blockquote>
-                </section>
+        <!-- Vision and Mission Section -->
+        <section class="mb-5 text-center">
+          <h2 class="text-primary mb-4">Our Vision & Mission</h2>
+          <p class="mb-3 text-secondary">
+            At <strong>"R Blogs"</strong>, we aim to create a platform that
+            sparks curiosity and fuels creativity. Our mission is to share
+            content that educates, inspires, and empowers, building a community
+            that thrives on shared ideas and meaningful connections.
+          </p>
+          <blockquote class="blockquote text-center">
+            <p class="mb-0">
+              <em>"Every great journey starts with a single idea."</em>
+            </p>
+            <footer class="blockquote-footer mt-2">"R Blogs"</footer>
+          </blockquote>
+        </section>
 
-                <!-- Highlights Section -->
-                <section class="mb-5 text-center">
-                    <h2 class="text-primary mb-4">Why You'll Love It Here</h2>
-                    <div class="row text-center">
-                        <div class="col-md-4 mb-3">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Authentic Content</h5>
-                                    <p class="card-text text-secondary">
-                                        Every article is crafted with care, ensuring authenticity and relevance to our readers.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Engaging Topics</h5>
-                                    <p class="card-text text-secondary">
-                                        From practical tips to inspiring stories, we cover topics that resonate with curious minds.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">A Growing Community</h5>
-                                    <p class="card-text text-secondary">
-                                        Join a like-minded community of readers eager to learn, grow, and share their insights.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Personal Section -->
-                <section class="mb-5 text-center">
-                    <h2 class="text-primary mb-4">Meet the Creator</h2>
-                    <p class="mb-4 text-secondary">
-                        Hello, I'm <strong>Vatsal Mistry</strong>, the creator behind <strong>"R Blogs"</strong>. 
-                        This blog is my passion project, born out of a love for writing, learning, and sharing knowledge. 
-                        When I'm not writing, you'll find me <strong>diving into a great book, exploring the outdoors, or chasing inspiration in everyday life!</strong>.
-                    </p>
-                    <img src="#" alt="Your Photo" class="rounded-circle mb-4" style="width: 150px; height: 150px;">
-                    <p class="mb-0">
-                        Let's connect! Reach out via email or follow me on social media.
-                    </p>
-                </section>
-
-                <!-- Call-to-Action Section -->
-                <section class="text-center">
-                    <h3 class="text-primary">Join Our Journey</h3>
-                    <p class="text-secondary">
-                        Stay updated with our latest posts, ideas, and insights by subscribing to our newsletter.
-                    </p>
-                    <a href="{{ url_for('main.subscribe') }}"  class="btn btn-primary btn-lg mt-3">Subscribe Now</a>
-                </section>
+        <!-- Highlights Section -->
+        <section class="mb-5 text-center">
+          <h2 class="text-primary mb-4">Why You'll Love It Here</h2>
+          <div class="row text-center">
+            <div class="col-md-4 mb-3">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                  <h5 class="card-title text-primary">Authentic Content</h5>
+                  <p class="card-text text-secondary">
+                    Every article is crafted with care, ensuring authenticity
+                    and relevance to our readers.
+                  </p>
+                </div>
+              </div>
             </div>
-        </div>
-    </main>
+            <div class="col-md-4 mb-3">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                  <h5 class="card-title text-primary">Engaging Topics</h5>
+                  <p class="card-text text-secondary">
+                    From practical tips to inspiring stories, we cover topics
+                    that resonate with curious minds.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                  <h5 class="card-title text-primary">A Growing Community</h5>
+                  <p class="card-text text-secondary">
+                    Join a like-minded community of readers eager to learn,
+                    grow, and share their insights.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Personal Section -->
+        <section class="mb-5 text-center">
+          <h2 class="text-primary mb-4">Meet the Creator</h2>
+          <p class="mb-4 text-secondary">
+            Hello, I'm <strong>Vatsal Mistry</strong>, the creator behind
+            <strong>"R Blogs"</strong>. This blog is my passion project, born
+            out of a love for writing, learning, and sharing knowledge. When I'm
+            not writing, you'll find me
+            <strong
+              >diving into a great book, exploring the outdoors, or chasing
+              inspiration in everyday life!</strong
+            >.
+          </p>
+          <img
+            src="#"
+            alt="Your Photo"
+            class="rounded-circle mb-4"
+            style="width: 150px; height: 150px"
+          />
+          <p class="mb-0">
+            Let's connect! Reach out via email or follow me on social media.
+          </p>
+        </section>
+
+        <!-- Call-to-Action Section -->
+        <section class="text-center">
+          <h3 class="text-primary">Join Our Journey</h3>
+          <p class="text-secondary">
+            Stay updated with our latest posts, ideas, and insights by
+            subscribing to our newsletter.
+          </p>
+          <a
+            href="{{ url_for('main.subscribe') }}"
+            class="btn btn-primary btn-lg mt-3"
+            >Subscribe Now</a
+          >
+        </section>
+      </div>
+    </div>
+  </main>
 </div>
-{% endblock %}
-{% block sidebar %}
+{% endblock %} {% block sidebar %}
 <!-- No Sidebar for the About Page -->
 {% endblock sidebar %}

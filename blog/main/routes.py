@@ -10,7 +10,11 @@ from blog.posts.forms import CommentForm
 main = Blueprint('main',__name__)
 
 @main.route("/")
+def front():
+    return render_template('front.html')
+
 @main.route("/home")
+@login_required
 def home():
     page = request.args.get('page', 1, type=int)
     search_query = request.args.get('search', '', type=str)

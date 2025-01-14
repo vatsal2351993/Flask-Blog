@@ -40,7 +40,7 @@ def save_user_picture(form_picture):
 
 def send_reset_email(user):
     token = user.get_reset_token()
-    msg = Message('Password Reset Request', sender='Rblogs@Demo.com' , recipients=[user.email])
+    msg = Message('Password Reset Request', sender="r.blogs1212@gmail.com", recipients=[user.email])
     msg.body= f'''To reset your password, visit the following link:
     {url_for('users.reset_token', token= token, _external=True )}
     If you did not make this request then simply ignore this email and no changes will be made.
@@ -62,3 +62,10 @@ def send_newsletter():
 
     flash('Newsletter sent successfully!', 'success')
     return redirect(url_for('home'))
+
+@app.after_request
+def add_header(response):
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response

@@ -1,14 +1,9 @@
 from blog import db,app, login_manager
 from datetime import datetime
 from flask_login import UserMixin
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 
 
-
-
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db.session.remove()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -28,14 +23,14 @@ class User(db.Model, UserMixin):
     comments = db.relationship('Comment', backref='author', lazy=True)
     
     def get_reset_token(self, expires_sec=1800):
-        s = Serializer(app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8') # Token is now returned as a string
+        s = Serializer(app.config['SECRET_KEY'],salt=b"secure_salt")
+        return s.dumps({'user_id': self.id})
 
     @staticmethod
-    def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+    def verify_reset_token(token,max_age=1800):
+        s = Serializer(app.config['SECRET_KEY'],salt=b"secure_salt")
         try:
-            user_id = s.loads(token)['user_id']
+            user_id = s.loads(token,max_age=max_age)['user_id']
         except:
             return None
         return User.query.get(user_id)
@@ -78,10 +73,5 @@ class Comment(db.Model):
     def __repr__(self):
         return f"Comment('{self.content}', '{self.date_posted}')"
 
-likes = db.Table('likes',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('post_id', db.Integer, db.ForeignKey('post.id'), primary_key=True)
-)
 
-with app.app_context():
-    db.create_all()        
+    
